@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="SLAMFormer-Infinity: Infinite SLAM Transformer for unbounded frontend and backend processing.">
+  <meta name="keywords" content="SLAMFormer-Infinity, SLAM, geometric transformer, dense reconstruction, monocular SLAM, Tsinghua University">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e9">
+  <title>SLAMFormer-∞ — Infinite SLAM Transformer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./static/vendor/three.module.js",
+        "three/addons/": "./static/vendor/addons/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="wordmark" href="#top" aria-label="SLAMFormer-Infinity home">
+      <span class="wordmark-name">SLAMFormer</span><span class="wordmark-separator">-</span><span class="wordmark-infinity">∞</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="#demo">Demo</a>
+      <a href="#idea">Idea</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#citation">Citation</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero-section" aria-labelledby="hero-title">
+      <div class="hero-grid-pattern" aria-hidden="true"></div>
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <!-- <p class="venue-label"><span></span> CoRL 2026</p> -->
+          <h1 id="hero-title">
+            <span class="hero-brand">SLAMFormer-<span class="infinity-mark">∞</span></span>
+            <span class="hero-subtitle">Infinite SLAM Transformer for Unbounded Frontend and Backend Processing</span>
+          </h1>
+          <p class="hero-summary">
+            A single geometric transformer for online dense monocular SLAM and
+            long-range global refinement—without an explicit distance bound.
+          </p>
+
+          <div class="authors" aria-label="Authors">
+            <span>Zhijian Fang<sup>*</sup></span>
+            <span>Weicheng Zheng<sup>*</sup></span>
+            <span>Yijun Yuan<sup>*†</sup></span>
+            <span>Weibang Wang</span>
+            <span>Zhuoguang Chen</span>
+            <span>Chang Sun</span>
+            <span>Junhao Huang</span>
+            <span>Kenan Li</span>
+            <span>Minghui Qin</span>
+            <span>Hang Zhao<sup>†</sup></span>
+          </div>
+          <div class="affiliation">
+            <strong>IIIS, Tsinghua University</strong>
+            <span><sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding author</span>
+          </div>
+
+          <div class="hero-actions" aria-label="Project links">
+            <a class="button button-primary" href="#demo">
+              <span class="play-icon" aria-hidden="true"></span>
+              Watch demo
+            </a>
+            <a class="button button-secondary" href="./slamformer-infinity.pdf" target="_blank" rel="noopener">Paper</a>
+            <a class="button button-secondary" href="#method">Explore method</a>
+            <a class="button button-quiet" href="#citation">BibTeX <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+
+        <div class="hero-proof" aria-label="Project highlights">
+          <div class="hero-proof-head">
+            <span>Unbounded sequence</span>
+            <span class="live-dot">RGB only</span>
+          </div>
+          <figure class="hero-visual">
+            <img src="./static/images/slamformer-infinity/17km-demo.jpg" alt="Self-collected 17 kilometer city-scale drive with a satellite route and consistent SLAMFormer-Infinity reconstruction.">
+            <figcaption>
+              <span>Self-collected city-scale drive</span>
+              <span>17 km · 45 min</span>
+            </figcaption>
+          </figure>
+          <div class="hero-thesis">
+            <span>01</span>
+            <p>Memory conditions keep active predictions in a local coordinate system.</p>
+          </div>
+          <div class="hero-thesis">
+            <span>02</span>
+            <p>PGGO jointly refines long-range camera poses and dense scene geometry.</p>
+          </div>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#demo">
+        <span>See it in motion</span>
+        <i aria-hidden="true"></i>
+      </a>
+    </section>
+
+    <section class="section demo-section" id="demo" aria-labelledby="demo-title">
+      <div class="container">
+        <div class="section-heading section-heading-wide">
+          <div>
+            <p class="eyebrow">Project demo / 01</p>
+            <h2 id="demo-title">Mapping beyond the training horizon.</h2>
+          </div>
+          <p>
+            SLAMFormer-∞ processes streaming monocular RGB, maintains an online dense map,
+            and revisits distant regions through a globally connected pose-geometry graph.
+          </p>
+        </div>
+        <div class="video-shell">
+          <div class="video-bar">
+            <span><i></i> SLAMFORMER_INFINITY_DEMO.MP4</span>
+            <span>RGB → POSE + DENSE GEOMETRY</span>
+          </div>
+          <video controls playsinline preload="metadata" poster="./static/images/slamformer-infinity/kitti05.jpg">
+            <source src="./static/SLAMFormer-Infty-demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="online-demo-browser" data-online-demo>
+          <div class="online-demo-heading">
+            <div>
+              <p class="eyebrow">Online sequence runs</p>
+              <h3>Watch online SLAM unfold, sequence by sequence.</h3>
+            </div>
+            <p>
+              Each clip shows the online SLAM system building poses and dense geometry on a different
+              KITTI drive. The centered card autoplays; browse manually or let the rail move on its own.
+            </p>
+          </div>
+
+          <div class="online-demo-layout">
+            <div class="online-demo-player">
+              <div class="video-shell">
+                <div class="video-bar">
+                  <span><i></i> <span data-online-demo-file>KITTI_00.MP4</span></span>
+                  <span>ONLINE SLAM · RGB → POSE + MAP</span>
+                </div>
+                <video id="online-demo-video" controls playsinline preload="metadata">
+                  <source data-online-demo-source src="./static/demo/kitti-00.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div class="online-demo-meta">
+                <div>
+                  <strong data-online-demo-title>KITTI Sequence 00</strong>
+                  <span data-online-demo-description>Streaming online reconstruction</span>
+                </div>
+                <span class="online-demo-route" data-online-demo-route>ONLINE RUN</span>
+              </div>
+            </div>
+
+            <div class="online-demo-tabs" role="tablist" aria-label="KITTI online SLAM demos">
+              <button class="online-demo-tab is-active" type="button" role="tab" aria-selected="true" data-online-demo-tab data-online-demo-src="./static/demo/kitti-00.mp4" data-sequence="00" data-route="ONLINE RUN">
+                <span><b>00</b><strong>KITTI 00</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-01.mp4" data-sequence="01" data-route="ONLINE RUN">
+                <span><b>01</b><strong>KITTI 01</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-02.mp4" data-sequence="02" data-route="5,067 m route">
+                <span><b>02</b><strong>KITTI 02</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-03.mp4" data-sequence="03" data-route="ONLINE RUN">
+                <span><b>03</b><strong>KITTI 03</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-04.mp4" data-sequence="04" data-route="394 m route">
+                <span><b>04</b><strong>KITTI 04</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-05.mp4" data-sequence="05" data-route="2,206 m route">
+                <span><b>05</b><strong>KITTI 05</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-07.mp4" data-sequence="07" data-route="ONLINE RUN">
+                <span><b>07</b><strong>KITTI 07</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-09.mp4" data-sequence="09" data-route="1,705 m route">
+                <span><b>09</b><strong>KITTI 09</strong></span><small>Online run</small>
+              </button>
+              <button class="online-demo-tab" type="button" role="tab" aria-selected="false" data-online-demo-tab data-online-demo-src="./static/demo/kitti-10.mp4" data-sequence="10" data-route="920 m route">
+                <span><b>10</b><strong>KITTI 10</strong></span><small>Online run</small>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="online-demo-carousel" data-online-demo-carousel>
+          <div class="online-demo-carousel-bar">
+            <span class="online-demo-live"><i></i> CENTER FOCUS · AUTO PLAY</span>
+            <span data-online-demo-current>SEQUENCE 00 / ONLINE RUN</span>
+            <div class="online-demo-controls" aria-label="Online demo controls">
+              <button type="button" data-online-demo-prev aria-label="Previous sequence">←</button>
+              <button type="button" data-online-demo-toggle aria-pressed="true">Pause motion</button>
+              <button type="button" data-online-demo-next aria-label="Next sequence">→</button>
+            </div>
+          </div>
+          <div class="online-demo-viewport" data-online-demo-viewport>
+            <div class="online-demo-track" data-online-demo-track aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section idea-section" id="idea" aria-labelledby="idea-title">
+      <div class="container">
+        <div class="idea-intro">
+          <p class="eyebrow">Core idea / 02</p>
+          <h2 id="idea-title">Long-range SLAM needs more than longer attention.</h2>
+          <p>
+            Existing geometric transformers face a structural choice: learn a globally consistent
+            pose and map inside a bounded range, or extend to long sequences by aligning poses and
+            stitching mostly fixed local geometry. SLAMFormer-∞ removes that trade-off.
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <article class="problem-card">
+            <div class="card-index">A</div>
+            <p class="card-kicker">Learned global attention</p>
+            <h3>Strong joint reasoning, bounded by training trajectories.</h3>
+            <p>
+              First-frame-anchored global prediction ties coordinate behavior and attention state to
+              the sequence lengths seen during training.
+            </p>
+            <div class="range-viz range-bounded" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><i></i>
+            </div>
+          </article>
+
+          <article class="problem-card">
+            <div class="card-index">B</div>
+            <p class="card-kicker">Pose-centric long-range systems</p>
+            <h3>Scalable pose correction, but geometry is largely stitched.</h3>
+            <p>
+              Long-range alignment can recover a coarse trajectory while local pointmaps remain
+              fragmented or misaligned.
+            </p>
+            <div class="range-viz range-stitched" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><i></i>
+            </div>
+          </article>
+
+          <article class="problem-card solution-card">
+            <div class="card-index">∞</div>
+            <p class="card-kicker">SLAMFormer-∞</p>
+            <h3>Bounded local computation. Unbounded global refinement.</h3>
+            <p>
+              Memory-conditioned inference preserves efficient local processing while PGGO jointly
+              optimizes pose and dense geometry over long-range graph connections.
+            </p>
+            <div class="range-viz range-infinite" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><i></i>
+            </div>
+          </article>
+        </div>
+
+        <figure class="paper-figure comparison-figure">
+          <img src="./static/images/slamformer-infinity/comparison.jpg" alt="Comparison of bounded SLAM-Former, pose-aligned VGGT-Long, and memory-conditioned SLAMFormer-Infinity.">
+          <figcaption>
+            A memory condition defines the coordinate system and scale for each target chunk,
+            allowing the same transformer to reason locally and refine globally.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section method-section" id="method" aria-labelledby="method-title">
+      <div class="container">
+        <div class="method-heading">
+          <div>
+            <p class="eyebrow">Method / 03</p>
+            <h2 id="method-title">One transformer, three operating rhythms.</h2>
+          </div>
+          <p>
+            Frontend, local backend, and global backend share the same geometric prior.
+            Their difference is the conditioning neighborhood and when refinement is triggered.
+          </p>
+        </div>
+
+        <div class="method-steps">
+          <article>
+            <span class="step-number">01</span>
+            <div>
+              <p class="step-label">Streaming</p>
+              <h3>Conditional frontend</h3>
+              <p>Detect keyframes and incrementally estimate poses and pointmaps from bounded local context.</p>
+            </div>
+          </article>
+          <article>
+            <span class="step-number">02</span>
+            <div>
+              <p class="step-label">Periodic</p>
+              <h3>Local backend</h3>
+              <p>Refine the latest fixed-size window and update the memory used by subsequent frontend inference.</p>
+            </div>
+          </article>
+          <article>
+            <span class="step-number">03</span>
+            <div>
+              <p class="step-label">Loop / sequence end</p>
+              <h3>Global PGGO</h3>
+              <p>Iteratively update camera poses and dense pointmaps together across the global graph.</p>
+            </div>
+          </article>
+        </div>
+
+        <figure class="paper-figure pipeline-figure">
+          <div class="figure-label">
+            <span>System pipeline</span>
+            <span>Frontend ↔ memory ↔ PGGO</span>
+          </div>
+          <img src="./static/images/slamformer-infinity/pipeline.jpg" alt="SLAMFormer-Infinity pipeline with online frontend, local backend, memory, and global PGGO backend.">
+          <figcaption>
+            Online tracking produces an incremental map. Memory-conditioned local refinement feeds
+            back into the frontend; global PGGO produces the final consistent poses and geometry.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section scale-section" id="results" aria-labelledby="scale-title">
+      <div class="container">
+        <div class="scale-heading">
+          <p class="eyebrow">Qualitative results / 04</p>
+          <h2 id="scale-title">From rooms to city-scale trajectories.</h2>
+          <p>
+            The central result is geometric: global alignment should not stop at the camera path.
+            SLAMFormer-∞ updates the pointmaps with the poses, yielding more coherent local structures
+            along kilometer-scale routes.
+          </p>
+        </div>
+
+        <figure class="result-figure result-figure-main">
+          <img src="./static/images/slamformer-infinity/demo-long.jpg" alt="City-scale reconstruction comparison on KITTI sequences and a self-collected 17 kilometer drive.">
+          <figcaption>
+            KITTI 05 and 09 plus a self-collected 17 km urban drive. VGGT-Long performs global pose
+            alignment; SLAMFormer-∞ jointly refines pose and geometry and maintains a consistent map
+            where the baseline collapses.
+          </figcaption>
+        </figure>
+
+        <div class="qualitative-explorer" data-sequence-explorer>
+          <div class="explorer-heading">
+            <div>
+              <p class="eyebrow">Sequence explorer</p>
+              <h3>Pose is not the whole map.</h3>
+            </div>
+            <p>
+              Select a KITTI sequence, then orbit, zoom, and pan each point cloud independently:
+              VGGT-Long on the left and SLAMFormer-∞ on the right.
+            </p>
+          </div>
+
+          <div class="sequence-tabs" role="tablist" aria-label="KITTI qualitative sequences">
+            <button class="sequence-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="sequence-02" data-sequence-tab="02">Seq-02</button>
+            <button class="sequence-tab" type="button" role="tab" aria-selected="false" aria-controls="sequence-04" data-sequence-tab="04">Seq-04</button>
+            <button class="sequence-tab" type="button" role="tab" aria-selected="false" aria-controls="sequence-05" data-sequence-tab="05">Seq-05</button>
+            <button class="sequence-tab" type="button" role="tab" aria-selected="false" aria-controls="sequence-09" data-sequence-tab="09">Seq-09</button>
+            <button class="sequence-tab" type="button" role="tab" aria-selected="false" aria-controls="sequence-10" data-sequence-tab="10">Seq-10</button>
+          </div>
+
+          <div class="sequence-stage">
+            <div class="sequence-stage-bar">
+              <span><i class="legend-dot legend-baseline"></i> VGGT-Long</span>
+              <span><i class="legend-dot legend-ours"></i> SLAMFormer-∞</span>
+              <span class="sequence-stage-note">drag: orbit · wheel: zoom · right-drag: pan</span>
+            </div>
+            <figure class="sequence-panel is-active" id="sequence-02" role="tabpanel" data-sequence-panel="02">
+              <div class="pointcloud-comparison">
+                <article class="pointcloud-module" data-pointcloud-viewer data-model="vggtlong" data-sequence="02">
+                  <header><span>VGGT-Long</span><small>Global pose alignment</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                  </div>
+                </article>
+                <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="02">
+                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                    <p class="route-length"><span>Route Length</span><strong>5067 m</strong></p>
+                  </div>
+                </article>
+              </div>
+              <figcaption>Sequence 02 · KITTI Dataset</figcaption>
+            </figure>
+            <figure class="sequence-panel" id="sequence-04" role="tabpanel" data-sequence-panel="04" hidden>
+              <div class="pointcloud-comparison">
+                <article class="pointcloud-module" data-pointcloud-viewer data-model="vggtlong" data-sequence="04">
+                  <header><span>VGGT-Long</span><small>Global pose alignment</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                  </div>
+                </article>
+                <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="04">
+                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                    <p class="route-length"><span>Route Length</span><strong>394 m</strong></p>
+                  </div>
+                </article>
+              </div>
+              <figcaption>Sequence 04 · KITTI Dataset</figcaption>
+            </figure>
+            <figure class="sequence-panel" id="sequence-05" role="tabpanel" data-sequence-panel="05" hidden>
+              <div class="pointcloud-comparison">
+                <article class="pointcloud-module" data-pointcloud-viewer data-model="vggtlong" data-sequence="05">
+                  <header><span>VGGT-Long</span><small>Global pose alignment</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                  </div>
+                </article>
+                <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="05">
+                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                    <p class="route-length"><span>Route Length</span><strong>2206 m</strong></p>
+                  </div>
+                </article>
+              </div>
+              <figcaption>Sequence 05 · KITTI Dataset</figcaption>
+            </figure>
+            <figure class="sequence-panel" id="sequence-09" role="tabpanel" data-sequence-panel="09" hidden>
+              <div class="pointcloud-comparison">
+                <article class="pointcloud-module" data-pointcloud-viewer data-model="vggtlong" data-sequence="09">
+                  <header><span>VGGT-Long</span><small>Global pose alignment</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                  </div>
+                </article>
+                <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="09">
+                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                    <p class="route-length"><span>Route Length</span><strong>1705 m</strong></p>
+                  </div>
+                </article>
+              </div>
+              <figcaption>Sequence 09 · KITTI Dataset</figcaption>
+            </figure>
+            <figure class="sequence-panel" id="sequence-10" role="tabpanel" data-sequence-panel="10" hidden>
+              <div class="pointcloud-comparison">
+                <article class="pointcloud-module" data-pointcloud-viewer data-model="vggtlong" data-sequence="10">
+                  <header><span>VGGT-Long</span><small>Global pose alignment</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                  </div>
+                </article>
+                <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="10">
+                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <div class="pointcloud-viewport" data-pointcloud-viewport>
+                    <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
+                    <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
+                    <p class="route-length"><span>Route Length</span><strong>920 m</strong></p>
+                  </div>
+                </article>
+              </div>
+              <figcaption>Sequence 10 · KITTI Dataset</figcaption>
+            </figure>
+          </div>
+
+          <div class="result-tags" aria-label="Result properties">
+            <span>Monocular RGB</span>
+            <span>Calibration-free</span>
+            <span>Dense pointmaps</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section evidence-section" aria-labelledby="evidence-title">
+      <div class="container">
+        <div class="evidence-heading">
+          <div>
+            <p class="eyebrow">Evidence, lightly / 05</p>
+            <h2 id="evidence-title">Competitive tracking, stronger long-range geometry.</h2>
+          </div>
+          <p>
+            We foreground the behavior the method was designed for. The numbers below summarize the
+            corresponding tracking gains without reproducing full benchmark tables.
+          </p>
+        </div>
+
+        <div class="metric-strip">
+          <article class="metric-card">
+            <p>KITTI full sequences</p>
+            <div class="metric-values">
+              <span>26.358 m</span>
+              <i aria-hidden="true">→</i>
+              <strong>23.011 m</strong>
+            </div>
+            <small>Average ATE RMSE · VGGT-Long → SLAMFormer-∞</small>
+          </article>
+          <article class="metric-card">
+            <p>Waymo urban segments</p>
+            <div class="metric-values">
+              <span>1.996 m</span>
+              <i aria-hidden="true">→</i>
+              <strong>1.813 m</strong>
+            </div>
+            <small>Average ATE RMSE · VGGT-Long → SLAMFormer-∞</small>
+          </article>
+          <article class="metric-card">
+            <p>7-Scenes</p>
+            <div class="metric-values">
+              <span>0.068 m</span>
+              <i aria-hidden="true">→</i>
+              <strong>0.046 m</strong>
+            </div>
+            <small>ATE RMSE · VGGT-SLAM → SLAMFormer-∞</small>
+          </article>
+        </div>
+
+        <div class="fine-grid">
+          <div class="fine-copy">
+            <p class="eyebrow">PGGO fine stage</p>
+            <h3>Small metric changes, visible geometric cleanup.</h3>
+            <p>
+              On Replica, the fine stage reduces local drift and cleans fragmented surfaces.
+              This qualitative difference is more informative than the modest aggregate score change.
+            </p>
+          </div>
+          <figure class="result-figure fine-figure">
+            <img src="./static/images/slamformer-infinity/fine.jpg" alt="Replica reconstruction before and after the PGGO fine stage.">
+            <figcaption>Reference RGB · before fine · after fine</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section citation-section" id="citation" aria-labelledby="citation-title">
+      <div class="container citation-grid">
+        <div class="citation-copy">
+          <p class="eyebrow">Citation / 06</p>
+          <h2 id="citation-title">Build beyond the horizon.</h2>
+          <p>If this work supports your research, please cite SLAMFormer-∞.</p>
+          <button class="copy-button" type="button" data-copy-citation>
+            <span>Copy BibTeX</span>
+            <i aria-hidden="true">↗</i>
+          </button>
+        </div>
+        <pre id="bibtex"><code>@misc{fang2026slamformerinf,
+  title  = {SLAMFormer-$\infty$: Infinite SLAM Transformer
+            for Unbounded Frontend and Backend Processing},
+  author = {Fang, Zhijian and Zheng, Weicheng and Yuan, Yijun
+            and Wang, Weibang and Chen, Zhuoguang and Sun, Chang
+            and Huang, Junhao and Li, Kenan and Qin, Minghui
+            and Zhao, Hang},
+  year   = {2026}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>SLAMFormer<span>∞</span></p>
+      <p>Infinite SLAM Transformer · IIIS, Tsinghua University</p>
+    </div>
+  </footer>
+
+  <script src="./static/js/online-demo.js"></script>
+  <script type="module" src="./static/js/pointcloud-explorer.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var toggle = document.querySelector(".nav-toggle");
+      var links = document.getElementById("nav-links");
+      var copyButton = document.querySelector("[data-copy-citation]");
+
+      toggle.addEventListener("click", function () {
+        var open = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!open));
+        links.classList.toggle("is-open");
+      });
+
+      links.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          toggle.setAttribute("aria-expanded", "false");
+          links.classList.remove("is-open");
+        });
+      });
+
+      copyButton.addEventListener("click", function () {
+        var citation = document.getElementById("bibtex").innerText;
+        navigator.clipboard.writeText(citation).then(function () {
+          copyButton.querySelector("span").textContent = "Copied";
+          window.setTimeout(function () {
+            copyButton.querySelector("span").textContent = "Copy BibTeX";
+          }, 1600);
+        });
+      });
+
+      var sequenceTabs = Array.prototype.slice.call(document.querySelectorAll("[data-sequence-tab]"));
+      var sequencePanels = Array.prototype.slice.call(document.querySelectorAll("[data-sequence-panel]"));
+
+      function showSequence(sequenceId) {
+        sequenceTabs.forEach(function (tab) {
+          var active = tab.getAttribute("data-sequence-tab") === sequenceId;
+          tab.classList.toggle("is-active", active);
+          tab.setAttribute("aria-selected", String(active));
+        });
+
+        sequencePanels.forEach(function (panel) {
+          var active = panel.getAttribute("data-sequence-panel") === sequenceId;
+          panel.classList.toggle("is-active", active);
+          panel.hidden = !active;
+          panel.setAttribute("aria-hidden", String(!active));
+        });
+
+        window.dispatchEvent(new CustomEvent("sequencechange", {
+          detail: { sequence: sequenceId }
+        }));
+      }
+
+      sequenceTabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          showSequence(tab.getAttribute("data-sequence-tab"));
+        });
+      });
+
+      showSequence("02");
+    });
+  </script>
+</body>
+</html>
