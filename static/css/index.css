@@ -82,6 +82,7 @@ a {
 .wordmark {
   align-items: baseline;
   display: inline-flex;
+  font-family: var(--serif);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1;
@@ -250,7 +251,7 @@ h1 {
 .authors {
   display: flex;
   flex-wrap: wrap;
-  font-size: 0.84rem;
+  font-size: 1.05rem;
   font-weight: 700;
   gap: 3px 14px;
   line-height: 1.45;
@@ -279,6 +280,7 @@ sup {
 
 .affiliation strong {
   color: var(--ink-soft);
+  font-size: 1.00rem;
 }
 
 .hero-actions {
@@ -1065,71 +1067,7 @@ sup {
 }
 
 .solution-card .card-index {
-  color: var(--red);
-  font-size: 3.1rem;
-}
-
-.range-viz {
-  align-items: center;
-  display: flex;
-  gap: 12px;
-  margin-top: auto;
-  overflow: hidden;
-  padding-top: 24px;
-  position: relative;
-}
-
-.range-viz span {
-  background: var(--blue);
-  height: 14px;
-  opacity: 0.34;
-  width: 14px;
-}
-
-.range-viz span:nth-child(2) { height: 24px; }
-.range-viz span:nth-child(3) { height: 34px; }
-.range-viz span:nth-child(4) { height: 44px; }
-
-.range-viz i {
-  border-top: 2px dashed var(--line-dark);
-  flex: 1;
-  height: 1px;
-}
-
-.range-bounded::after {
-  background: var(--red);
-  content: "";
-  height: 52px;
-  position: absolute;
-  right: 25%;
-  width: 2px;
-}
-
-.range-stitched span {
-  background: var(--peach);
-  opacity: 1;
-}
-
-.range-stitched i {
-  border-color: var(--red);
-}
-
-.range-infinite span {
-  background: var(--green);
-  opacity: 1;
-}
-
-.range-infinite i {
-  border-color: var(--green);
-}
-
-.range-infinite::after {
-  color: var(--red);
-  content: "∞";
-  font-family: var(--serif);
-  font-size: 2rem;
-  position: absolute;
-  right: 0;
+  color: var(--ink);
 }
 
 .paper-figure,
@@ -1731,7 +1669,7 @@ pre {
 
 .footer-inner p:first-child {
   color: #f7f5ed;
-  font-family: var(--sans);
+  font-family: var(--serif);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: -0.04em;

@@ -50,10 +50,7 @@
             <span class="hero-brand">SLAMFormer-<span class="infinity-mark">∞</span></span>
             <span class="hero-subtitle">Infinite SLAM Transformer for Unbounded Frontend and Backend Processing</span>
           </h1>
-          <p class="hero-summary">
-            A single geometric transformer for online dense monocular SLAM and
-            long-range global refinement—without an explicit distance bound.
-          </p>
+          <p class="hero-summary"></p>
 
           <div class="authors" aria-label="Authors">
             <span>Zhijian Fang<sup>*</sup></span>
@@ -77,7 +74,7 @@
               <span class="play-icon" aria-hidden="true"></span>
               Watch demo
             </a>
-            <a class="button button-secondary" href="./slamformer-infinity.pdf" target="_blank" rel="noopener">Paper</a>
+            <a class="button button-secondary" href="https://arxiv.org/abs/2608.03429" target="_blank" rel="noopener">Paper</a>
             <a class="button button-secondary" href="#method">Explore method</a>
             <a class="button button-quiet" href="#citation">BibTeX <span aria-hidden="true">↓</span></a>
           </div>
@@ -115,11 +112,11 @@
       <div class="container">
         <div class="section-heading section-heading-wide">
           <div>
-            <p class="eyebrow">Project demo / 01</p>
-            <h2 id="demo-title">Mapping beyond the training horizon.</h2>
+            <!-- <p class="eyebrow">Project demo / 01</p> -->
+            <h2 id="demo-title">Demo</h2>
           </div>
           <p>
-            SLAMFormer-∞ processes streaming monocular RGB, maintains an online dense map,
+            SLAMFormer-<span class="infinity-mark">∞</span> processes streaming monocular RGB, maintains an online dense map,
             and revisits distant regions through a globally connected pose-geometry graph.
           </p>
         </div>
@@ -128,7 +125,7 @@
             <span><i></i> SLAMFORMER_INFINITY_DEMO.MP4</span>
             <span>RGB → POSE + DENSE GEOMETRY</span>
           </div>
-          <video controls playsinline preload="metadata" poster="./static/images/slamformer-infinity/kitti05.jpg">
+          <video controls playsinline preload="metadata" poster="./static/images/slamformer-infinity/cover_page.jpg">
             <source src="./static/SLAMFormer-Infty-demo.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -137,12 +134,12 @@
         <div class="online-demo-browser" data-online-demo>
           <div class="online-demo-heading">
             <div>
-              <p class="eyebrow">Online sequence runs</p>
+              <!-- <p class="eyebrow">Online sequence runs</p> -->
               <h3>Watch online SLAM unfold, sequence by sequence.</h3>
             </div>
             <p>
               Each clip shows the online SLAM system building poses and dense geometry on a different
-              KITTI drive. The centered card autoplays; browse manually or let the rail move on its own.
+              KITTI drive.
             </p>
           </div>
 
@@ -219,53 +216,44 @@
     <section class="section idea-section" id="idea" aria-labelledby="idea-title">
       <div class="container">
         <div class="idea-intro">
-          <p class="eyebrow">Core idea / 02</p>
-          <h2 id="idea-title">Long-range SLAM needs more than longer attention.</h2>
+          <!-- <p class="eyebrow">Core idea / 02</p> -->
+          <h2 id="idea-title">Long-range SLAM</h2>
           <p>
             Existing geometric transformers face a structural choice: learn a globally consistent
             pose and map inside a bounded range, or extend to long sequences by aligning poses and
-            stitching mostly fixed local geometry. SLAMFormer-∞ removes that trade-off.
+            stitching mostly fixed local geometry. SLAMFormer-<span class="infinity-mark">∞</span> removes that trade-off.
           </p>
         </div>
 
         <div class="problem-grid">
           <article class="problem-card">
             <div class="card-index">A</div>
-            <p class="card-kicker">Learned global attention</p>
+            <!-- <p class="card-kicker">Learned global attention</p> -->
             <h3>Strong joint reasoning, bounded by training trajectories.</h3>
             <p>
               First-frame-anchored global prediction ties coordinate behavior and attention state to
               the sequence lengths seen during training.
             </p>
-            <div class="range-viz range-bounded" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><i></i>
-            </div>
           </article>
 
           <article class="problem-card">
             <div class="card-index">B</div>
-            <p class="card-kicker">Pose-centric long-range systems</p>
+            <!-- <p class="card-kicker">Pose-centric long-range systems</p> -->
             <h3>Scalable pose correction, but geometry is largely stitched.</h3>
             <p>
               Long-range alignment can recover a coarse trajectory while local pointmaps remain
               fragmented or misaligned.
             </p>
-            <div class="range-viz range-stitched" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><i></i>
-            </div>
           </article>
 
           <article class="problem-card solution-card">
-            <div class="card-index">∞</div>
-            <p class="card-kicker">SLAMFormer-∞</p>
+            <div class="card-index">SLAMFormer-<span class="infinity-mark">∞</span></div>
+            <!-- <p class="card-kicker">SLAMFormer-<span class="infinity-mark">∞</span></p> -->
             <h3>Bounded local computation. Unbounded global refinement.</h3>
             <p>
               Memory-conditioned inference preserves efficient local processing while PGGO jointly
               optimizes pose and dense geometry over long-range graph connections.
             </p>
-            <div class="range-viz range-infinite" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><i></i>
-            </div>
           </article>
         </div>
 
@@ -283,7 +271,7 @@
       <div class="container">
         <div class="method-heading">
           <div>
-            <p class="eyebrow">Method / 03</p>
+            <!-- <p class="eyebrow">Method / 03</p> -->
             <h2 id="method-title">One transformer, three operating rhythms.</h2>
           </div>
           <p>
@@ -336,11 +324,11 @@
     <section class="section scale-section" id="results" aria-labelledby="scale-title">
       <div class="container">
         <div class="scale-heading">
-          <p class="eyebrow">Qualitative results / 04</p>
-          <h2 id="scale-title">From rooms to city-scale trajectories.</h2>
+          <!-- <p class="eyebrow">Qualitative results / 04</p> -->
+          <h2 id="scale-title">City-scale qualitative results</h2>
           <p>
             The central result is geometric: global alignment should not stop at the camera path.
-            SLAMFormer-∞ updates the pointmaps with the poses, yielding more coherent local structures
+            SLAMFormer-<span class="infinity-mark">∞</span> updates the pointmaps with the poses, yielding more coherent local structures
             along kilometer-scale routes.
           </p>
         </div>
@@ -349,7 +337,7 @@
           <img src="./static/images/slamformer-infinity/demo-long.jpg" alt="City-scale reconstruction comparison on KITTI sequences and a self-collected 17 kilometer drive.">
           <figcaption>
             KITTI 05 and 09 plus a self-collected 17 km urban drive. VGGT-Long performs global pose
-            alignment; SLAMFormer-∞ jointly refines pose and geometry and maintains a consistent map
+            alignment; SLAMFormer-<span class="infinity-mark">∞</span> jointly refines pose and geometry and maintains a consistent map
             where the baseline collapses.
           </figcaption>
         </figure>
@@ -357,12 +345,12 @@
         <div class="qualitative-explorer" data-sequence-explorer>
           <div class="explorer-heading">
             <div>
-              <p class="eyebrow">Sequence explorer</p>
-              <h3>Pose is not the whole map.</h3>
+              <!-- <p class="eyebrow">Sequence explorer</p> -->
+              <h3>Sequence explorer</h3>
             </div>
             <p>
               Select a KITTI sequence, then orbit, zoom, and pan each point cloud independently:
-              VGGT-Long on the left and SLAMFormer-∞ on the right.
+              VGGT-Long on the left and SLAMFormer-<span class="infinity-mark">∞</span> on the right.
             </p>
           </div>
 
@@ -377,7 +365,7 @@
           <div class="sequence-stage">
             <div class="sequence-stage-bar">
               <span><i class="legend-dot legend-baseline"></i> VGGT-Long</span>
-              <span><i class="legend-dot legend-ours"></i> SLAMFormer-∞</span>
+              <span><i class="legend-dot legend-ours"></i> SLAMFormer-<span class="infinity-mark">∞</span></span>
               <span class="sequence-stage-note">drag: orbit · wheel: zoom · right-drag: pan</span>
             </div>
             <figure class="sequence-panel is-active" id="sequence-02" role="tabpanel" data-sequence-panel="02">
@@ -390,7 +378,7 @@
                   </div>
                 </article>
                 <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="02">
-                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <header><span>SLAMFormer-<span class="infinity-mark">∞</span></span><small>Joint pose–geometry refinement</small></header>
                   <div class="pointcloud-viewport" data-pointcloud-viewport>
                     <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
                     <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
@@ -410,7 +398,7 @@
                   </div>
                 </article>
                 <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="04">
-                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <header><span>SLAMFormer-<span class="infinity-mark">∞</span></span><small>Joint pose–geometry refinement</small></header>
                   <div class="pointcloud-viewport" data-pointcloud-viewport>
                     <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
                     <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
@@ -430,7 +418,7 @@
                   </div>
                 </article>
                 <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="05">
-                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <header><span>SLAMFormer-<span class="infinity-mark">∞</span></span><small>Joint pose–geometry refinement</small></header>
                   <div class="pointcloud-viewport" data-pointcloud-viewport>
                     <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
                     <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
@@ -450,7 +438,7 @@
                   </div>
                 </article>
                 <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="09">
-                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <header><span>SLAMFormer-<span class="infinity-mark">∞</span></span><small>Joint pose–geometry refinement</small></header>
                   <div class="pointcloud-viewport" data-pointcloud-viewport>
                     <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
                     <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
@@ -470,7 +458,7 @@
                   </div>
                 </article>
                 <article class="pointcloud-module pointcloud-module-ours" data-pointcloud-viewer data-model="slamformer-infinity" data-sequence="10">
-                  <header><span>SLAMFormer-∞</span><small>Joint pose–geometry refinement</small></header>
+                  <header><span>SLAMFormer-<span class="infinity-mark">∞</span></span><small>Joint pose–geometry refinement</small></header>
                   <div class="pointcloud-viewport" data-pointcloud-viewport>
                     <p class="pointcloud-loading" data-pointcloud-loading aria-live="polite">Loading point cloud…</p>
                     <button class="pointcloud-reset" type="button" data-pointcloud-reset>Reset view</button>
@@ -495,7 +483,7 @@
       <div class="container">
         <div class="evidence-heading">
           <div>
-            <p class="eyebrow">Evidence, lightly / 05</p>
+            <!-- <p class="eyebrow">Evidence, lightly / 05</p> -->
             <h2 id="evidence-title">Competitive tracking, stronger long-range geometry.</h2>
           </div>
           <p>
@@ -512,7 +500,7 @@
               <i aria-hidden="true">→</i>
               <strong>23.011 m</strong>
             </div>
-            <small>Average ATE RMSE · VGGT-Long → SLAMFormer-∞</small>
+            <small>Average ATE RMSE · VGGT-Long → SLAMFormer-<span class="infinity-mark">∞</span></small>
           </article>
           <article class="metric-card">
             <p>Waymo urban segments</p>
@@ -521,7 +509,7 @@
               <i aria-hidden="true">→</i>
               <strong>1.813 m</strong>
             </div>
-            <small>Average ATE RMSE · VGGT-Long → SLAMFormer-∞</small>
+            <small>Average ATE RMSE · VGGT-Long → SLAMFormer-<span class="infinity-mark">∞</span></small>
           </article>
           <article class="metric-card">
             <p>7-Scenes</p>
@@ -530,14 +518,14 @@
               <i aria-hidden="true">→</i>
               <strong>0.046 m</strong>
             </div>
-            <small>ATE RMSE · VGGT-SLAM → SLAMFormer-∞</small>
+            <small>ATE RMSE · VGGT-SLAM → SLAMFormer-<span class="infinity-mark">∞</span></small>
           </article>
         </div>
 
         <div class="fine-grid">
           <div class="fine-copy">
-            <p class="eyebrow">PGGO fine stage</p>
-            <h3>Small metric changes, visible geometric cleanup.</h3>
+            <!-- <p class="eyebrow">PGGO fine stage</p> -->
+            <h3>Cleaner geometry beyond the metrics.</h3>
             <p>
               On Replica, the fine stage reduces local drift and cleans fragmented surfaces.
               This qualitative difference is more informative than the modest aggregate score change.
@@ -554,22 +542,17 @@
     <section class="section citation-section" id="citation" aria-labelledby="citation-title">
       <div class="container citation-grid">
         <div class="citation-copy">
-          <p class="eyebrow">Citation / 06</p>
-          <h2 id="citation-title">Build beyond the horizon.</h2>
-          <p>If this work supports your research, please cite SLAMFormer-∞.</p>
+          <h2 id="citation-title">Citation</h2>
           <button class="copy-button" type="button" data-copy-citation>
             <span>Copy BibTeX</span>
             <i aria-hidden="true">↗</i>
           </button>
         </div>
-        <pre id="bibtex"><code>@misc{fang2026slamformerinf,
-  title  = {SLAMFormer-$\infty$: Infinite SLAM Transformer
-            for Unbounded Frontend and Backend Processing},
-  author = {Fang, Zhijian and Zheng, Weicheng and Yuan, Yijun
-            and Wang, Weibang and Chen, Zhuoguang and Sun, Chang
-            and Huang, Junhao and Li, Kenan and Qin, Minghui
-            and Zhao, Hang},
-  year   = {2026}
+        <pre id="bibtex"><code>@misc{slamformerinfinity,
+  title={SLAMFormer-$\infty$: Infinite SLAM Transformer for Unbounded Frontend and Backend Processing},
+  author={Zhijian Fang and Weicheng Zheng and Yijun Yuan and Weibang Wang and Zhuoguang Chen and Chang Sun and Junhao Huang and Kenan Li and Minghui Qin and Hang Zhao},
+  year={2026},
+  eprint={2608.03429}
 }</code></pre>
       </div>
     </section>
@@ -577,8 +560,8 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>SLAMFormer<span>∞</span></p>
-      <p>Infinite SLAM Transformer · IIIS, Tsinghua University</p>
+      <p>SLAMFormer-<span class="infinity-mark">∞</span></p>
+      <!-- <p>Infinite SLAM Transformer · IIIS, Tsinghua University</p> -->
     </div>
   </footer>
 
