@@ -36,9 +36,6 @@
         '<div class="online-demo-card-video"><video muted playsinline preload="none"></video><span data-online-demo-loading>STREAM WHEN CENTERED</span></div>',
         '<div class="online-demo-card-caption"><strong>KITTI ' + sequence + '</strong><small>Online SLAM</small></div>'
       ].join("");
-      card.querySelector("video").addEventListener("ended", function () {
-        if (autoPlay && card.classList.contains("is-center")) move(1);
-      });
       track.appendChild(card);
       return card;
     }
@@ -143,9 +140,7 @@
       toggleButton.textContent = autoPlay ? "Pause auto advance" : "Resume auto advance";
       toggleButton.setAttribute("aria-pressed", String(autoPlay));
       if (autoPlay) {
-        var activeVideo = cards[activeIndex].querySelector("video");
-        if (activeVideo.ended) move(1);
-        else loadCard(cards[activeIndex], true);
+        loadCard(cards[activeIndex], true);
       }
     });
 
@@ -156,6 +151,10 @@
         centerCard(index, true);
       });
     });
+
+    window.setInterval(function () {
+      if (autoPlay && document.visibilityState === "visible") move(1);
+    }, 20000);
 
     centerCard(0, false);
   }
