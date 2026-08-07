@@ -283,6 +283,28 @@ sup {
   font-size: 1.00rem;
 }
 
+.hero-logos {
+  align-items: center;
+  display: flex;
+  gap: 22px;
+  margin-top: 18px;
+}
+
+.hero-logos img {
+  display: block;
+  object-fit: contain;
+}
+
+.marslab-logo {
+  height: 64px;
+  width: 66px;
+}
+
+.tsinghua-logo {
+  height: 58px;
+  width: 58px;
+}
+
 .hero-actions {
   align-items: center;
   display: flex;
@@ -1035,6 +1057,12 @@ sup {
   font-size: 2rem;
   line-height: 1;
   margin-bottom: 52px;
+}
+
+.card-example {
+  display: block;
+  font-size: 0.55em;
+  margin-top: 8px;
 }
 
 .card-kicker,
